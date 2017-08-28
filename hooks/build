@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/usr/bin/env bash
 
 case "$CACHE_TAG" in
 	stable)
