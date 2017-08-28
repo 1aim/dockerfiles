@@ -1,19 +1,24 @@
 #!/usr/bin/env bash
 
-case "$CACHE_TAG" in
+case $DOCKER_TAG in
 	stable)
-		docker build --build-arg DEFAULT=stable -t "$IMAGE_NAME" .
+		docker build --build-arg DEFAULT=stable -t $IMAGE_NAME .
 		;;
 
 	beta)
-		docker build --build-arg DEFAULT=beta -t "$IMAGE_NAME" .
+		docker build --build-arg DEFAULT=beta -t $IMAGE_NAME .
 		;;
 
 	nightly)
-		docker build --build-arg DEFAULT=nightly -t "$IMAGE_NAME" .
+		docker build --build-arg DEFAULT=nightly -t $IMAGE_NAME .
 		;;
 
 	all)
-		docker build --build-arg TOOLCHAINS="stable beta nightly" -t "$IMAGE_NAME" .
+		docker build --build-arg TOOLCHAINS="stable beta nightly" -t $IMAGE_NAME .
+		;;
+
+	*)
+		>&2 echo "Unknown tag."
+		exit 1
 		;;
 esac
