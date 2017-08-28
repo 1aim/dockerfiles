@@ -2,19 +2,19 @@
 
 case $DOCKER_TAG in
 	stable)
-		docker build --build-arg DEFAULT=stable -t $IMAGE_NAME .
+		DEFAULT=stable
 		;;
 
 	beta)
-		docker build --build-arg DEFAULT=beta -t $IMAGE_NAME .
+		DEFAULT=beta
 		;;
 
 	nightly)
-		docker build --build-arg DEFAULT=nightly -t $IMAGE_NAME .
+		DEFAULT=nightly
 		;;
 
 	all)
-		docker build --build-arg TOOLCHAINS="stable beta nightly" -t $IMAGE_NAME .
+		TOOLCHAINS="stable beta nightly"
 		;;
 
 	*)
@@ -22,3 +22,9 @@ case $DOCKER_TAG in
 		exit 1
 		;;
 esac
+
+docker build \
+	--build-arg DEFAULT="${DEFAULT:-stable}" \
+	--build-arg TOOLCHAINS="$TOOLCHAINS" \
+	--build-arg TARGETS="$TARGETS" \
+	.
