@@ -24,7 +24,7 @@ case $DOCKER_TAG in
 esac
 
 docker build \
-	--build-arg DEFAULT="${DEFAULT:-stable}" \
-	--build-arg TOOLCHAINS="$TOOLCHAINS" \
-	--build-arg TARGETS="$TARGETS" \
+	--build-arg RUSTUP_DEFAULT="${DEFAULT:-stable}" \
+	--build-arg RUSTUP_TOOLCHAINS="$TOOLCHAINS" \
+	--build-arg RUSTUP_TARGETS="$TARGETS" \
 	.

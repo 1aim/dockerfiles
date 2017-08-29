@@ -13,25 +13,25 @@ RUN apt-get update && \
 ENV PATH=/root/.cargo/bin:$PATH
 
 # Install default toolchain, or stable.
-ARG DEFAULT=stable
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain=$DEFAULT
-
-ARG UPDATE=0
-RUN if [ "x$UPDATE" = "x1" -o "x$UPDATE" = "xtrue" -o "x$UPDATE" = "xon" ]; then \
-	rustup update; \
-fi
+ARG RUSTUP_DEFAULT=stable
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain=$RUSTUP_DEFAULT
 
 # Install any additional toolchains.
-ARG TOOLCHAINS
-RUN for toolchain in $TOOLCHAINS; do \
+ARG RUSTUP_TOOLCHAINS
+RUN for toolchain in $RUSTUP_TOOLCHAINS; do \
 	rustup update "$toolchain"; \
 done
 
 # Install any additional targets.
-ARG TARGETS
-RUN for target in $TARGETS; do \
+ARG RUSTUP_TARGETS
+RUN for target in $RUSTUP_TARGETS; do \
 	rustup target add "$(echo $target | cut -d':' -f2)" --toolchain "$(echo $target | cut -d':' -f1)"; \
 done
+
+ONBUILD ARG RUSTUP_UPDATE
+ONBUILD RUN if [ "x$RUSTUP_UPDATE" = "x1" -o "x$RUSTUP_UPDATE" = "xtrue" -o "x$RUSTUP_UPDATE" = "xon" ]; then \
+	rustup update; \
+fi
 
 # Clear huge aptitude cache.
 RUN rm -rf /var/lib/apt/lists/*
