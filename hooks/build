@@ -5,16 +5,40 @@ case $DOCKER_TAG in
 		DEFAULT=stable
 		;;
 
+	stable.musl)
+		DEFAULT=stable
+		TARGETS="stable:x86_64-unknown-linux-musl"
+		DEPENDENCIES="musl-tools"
+		;;
+
 	beta)
 		DEFAULT=beta
+		;;
+
+	beta.musl)
+		DEFAULT=beta
+		TARGETS="beta:x86_64-unknown-linux-musl"
+		DEPENDENCIES="musl-tools"
 		;;
 
 	nightly)
 		DEFAULT=nightly
 		;;
 
+	nightly.musl)
+		DEFAULT=nightly
+		TARGETS="nightly:x86_64-unknown-linux-musl"
+		DEPENDENCIES="musl-tools"
+		;;
+
 	all)
 		TOOLCHAINS="stable beta nightly"
+		;;
+
+	all.musl)
+		TOOLCHAINS="stable beta nightly"
+		TARGETS="stable:x86_64-unknown-linux-musl beta:x86_64-unknown-linux-musl nightly:x86_64-unknown-linux-musl"
+		DEPENDENCIES="musl-tools"
 		;;
 
 	*)
@@ -26,4 +50,5 @@ esac
 docker build . \
 	--build-arg RUSTUP_DEFAULT="${DEFAULT:-stable}" \
 	--build-arg RUSTUP_TOOLCHAINS="$TOOLCHAINS" \
-	--build-arg RUSTUP_TARGETS="$TARGETS"
+	--build-arg RUSTUP_TARGETS="$TARGETS" \
+	--build-arg RUSTUP_DEPENDENCIES="$DEPENDENCIES"

@@ -28,6 +28,11 @@ RUN for target in $RUSTUP_TARGETS; do \
 	rustup target add "$(echo $target | cut -d':' -f2)" --toolchain "$(echo $target | cut -d':' -f1)"; \
 done
 
+ARG RUSTUP_DEPENDENCIES
+RUN if [ -n "$RUSTUP_DEPENDENCIES" ]; then \
+	apt-get install --no-install-recommends -y $RUSTUP_DEPENDENCIES; \
+fi
+
 ONBUILD ARG RUSTUP_UPDATE
 ONBUILD RUN if [ "x$RUSTUP_UPDATE" = "x1" -o "x$RUSTUP_UPDATE" = "xtrue" -o "x$RUSTUP_UPDATE" = "xon" ]; then \
 	rustup update; \
