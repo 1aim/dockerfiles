@@ -26,9 +26,13 @@ Images
 The provided images are:
 
 - `stable` for stable Rust
+- `stable.musl` for stable Rust with musl target and tools
 - `beta` for beta Rust
+- `beta.musl` for beta Rust with musl target and tools
 - `nightly` for nightly Rust
+- `nightly.musl` for nightly Rust with musl target and tools
 - `all` for stable, beta and nightly Rust
+- `all.musl` for stable, beta and nightly Rust musl target and tools
 
 Updating
 --------
